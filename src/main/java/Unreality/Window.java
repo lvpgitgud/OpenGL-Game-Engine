@@ -31,8 +31,13 @@ public class Window {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
         init();
         loop();
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
 
     }
+
     public void init(){
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -53,6 +58,11 @@ public class Window {
             throw new IllegalStateException("Failed to create the GLFW window.");
 
         }
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
         glfwMakeContextCurrent(glfwWindow);
         glfwSwapInterval(1);
         glfwShowWindow(glfwWindow); //make win dow visible
@@ -61,9 +71,17 @@ public class Window {
 
 
     }
+
+
     public void loop(){
         while (!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
+
+            if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)){
+                System.out.println("Space key is pressed!");
+
+            }
+
 
             glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
