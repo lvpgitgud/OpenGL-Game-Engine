@@ -11,6 +11,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import renderer.Shader;
 import renderer.Texture;
+import util.AssetPool;
 import util.Time;
 
 import java.nio.FloatBuffer;
@@ -49,7 +50,10 @@ public class LevelEditorScene extends Scene {
 
             }
         }
-
+        loadResource();
+    }
+    private void loadResource(){
+        AssetPool.getShader("assets/shaders/default.glsl");
     }
     @Override
     public void update(float dt){
