@@ -28,7 +28,7 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init() {
-        this.camera = new Camera(new Vector2f());
+        this.camera = new Camera(new Vector2f(-250, 0));
 
         GameObject obj1 = new GameObject("Object 1", new Transform(new Vector2f(100, 100), new Vector2f(256, 256)));
         obj1.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/testImage.png")));
@@ -38,9 +38,9 @@ public class LevelEditorScene extends Scene {
         obj2.addComponent(new SpriteRenderer(AssetPool.getTexture("assets/images/testImage2.png")));
         this.addGameObjectToScene(obj2);
 
-        loadResource();
+        loadResources();
     }
-    private void loadResource(){
+    private void loadResources(){
         AssetPool.getShader("assets/shaders/default.glsl");
     }
     @Override
