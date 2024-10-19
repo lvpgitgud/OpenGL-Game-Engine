@@ -29,6 +29,15 @@ public class Spritesheet {
             };
             Sprite sprite = new Sprite(this.texture, texCoords);
             this.sprites.add(sprite);
+
+            currentX += spriteWidth + spacing;
+            if (currentX >= texture.getWidth()) {
+                currentX = 0;
+                currentY -= spriteHeight + spacing;
+            }
         }
     }
+public Sprite getSprite(int index){
+    return this.sprites.get(index);
+}
 }
