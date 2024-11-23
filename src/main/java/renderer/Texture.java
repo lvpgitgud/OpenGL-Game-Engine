@@ -63,6 +63,10 @@ public class Texture {
         return this.height;
     }
 
+    public int getId() {
+        return texID;
+    }
+
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, texID);
     }

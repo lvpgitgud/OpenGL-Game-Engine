@@ -7,12 +7,14 @@
         "properties": {
           "firstTime": false,
           "color": {
-            "x": 0.50511944,
-            "y": 0.04654683,
-            "z": 0.04654683,
+            "x": 0.5802048,
+            "y": 0.16237813,
+            "z": 0.16237813,
             "w": 1.0
           },
           "sprite": {
+            "width": 0.0,
+            "height": 0.0,
             "texCoords": [
               {
                 "x": 1.0,
@@ -73,6 +75,8 @@
             "w": 1.0
           },
           "sprite": {
+            "width": 0.0,
+            "height": 0.0,
             "texture": {
               "filepath": "assets/images/blendImage2.png",
               "texID": 3,
