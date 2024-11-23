@@ -20,6 +20,8 @@ project.ext.imguiVersion = '1.87.0'
 
 dependencies {
 
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     implementation fileTree('libs'){include '*.jar' }
     // ImGui Java Binding
     implementation "io.github.spair:imgui-java-binding:$imguiVersion"

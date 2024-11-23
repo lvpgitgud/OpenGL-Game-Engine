@@ -8,23 +8,25 @@ import Unreality.Transform;
 import imgui.ImGui;
 public class SpriteRenderer extends Component {
     private boolean firstTime = false;
-    private Vector4f color;
+    private Vector4f color = new Vector4f(1, 1, 1, 1);
+    private Sprite sprite = new Sprite();
+    private transient Transform lastTransform;
+    private transient boolean isDirty = false;
     private Vector2f[] texCoords;
     private Texture texture;
-    private Sprite sprite;
-    private Transform lastTransform;
-    private boolean isDirty = false;
 
-    public SpriteRenderer(Vector4f color) {
-        this.color = color;
-        this.sprite = new Sprite(null);
-        this.isDirty = true;
-    }
-    public SpriteRenderer(Sprite sprite) {
-        this.sprite = sprite;
-        this.color = new Vector4f(1, 1, 1, 1);
-        this.isDirty = true;
-    }
+
+
+//    public SpriteRenderer(Vector4f color) {
+//        this.color = color;
+//        this.sprite = new Sprite(null);
+//        this.isDirty = true;
+//    }
+//    public SpriteRenderer(Sprite sprite) {
+//        this.sprite = sprite;
+//        this.color = new Vector4f(1, 1, 1, 1);
+//        this.isDirty = true;
+//    }
 
     @Override
     public void start() {
