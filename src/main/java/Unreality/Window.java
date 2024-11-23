@@ -43,18 +43,18 @@ public class Window {
         switch (newScene){
             case 0:
                 currentScene = new LevelEditorScene();
-                currentScene.init();
-                currentScene.start();
+
                 break;
             case 1:
                 currentScene = new LevelScene();
-                currentScene.init();
-                currentScene.start();
                 break;
             default:
                 assert false :"Unknow scene '" + newScene + "'";
                 break;
         }
+        currentScene.load();
+        currentScene.init();
+        currentScene.start();
     }
     public void run() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -118,7 +118,7 @@ public class Window {
         float endTime ;
         float dt = -1.0f;
 
-        currentScene.load();
+
         while (!glfwWindowShouldClose(glfwWindow)){
             glfwPollEvents();
 
