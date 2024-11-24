@@ -1,9 +1,5 @@
 package Components;
 
-import Unreality.Component;
-
-import java.awt.font.FontRenderContext;
-
 public class FontRenderer extends Component {
 
     @Override

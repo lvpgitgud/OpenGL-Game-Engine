@@ -1,6 +1,9 @@
-package Unreality;
+package scenes;
 
-public class LevelScene extends Scene{
+import Unreality.Window;
+import scenes.Scene;
+
+public class LevelScene extends Scene {
     public LevelScene() {
         System.out.println("inside level scene!");
         Window.get().r = 1;

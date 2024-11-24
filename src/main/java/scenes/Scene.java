@@ -1,8 +1,12 @@
-package Unreality;
+package scenes;
 
+import Components.Component;
+import Components.ComponentDeserializer;
+import Unreality.Camera;
+import Unreality.GameObject;
+import Unreality.GameObjectDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import renderer.RenderBatch;
 import renderer.Renderer;
 
 import imgui.ImGui;
@@ -90,10 +94,29 @@ public abstract class Scene {
             e.printStackTrace();
         }
         if (!inFile.equals("")) {
+            int maxGoId = -1;
+            int maxCompId = -1;
             GameObject[] objs = gson.fromJson(inFile, GameObject[].class);
             for (int i=0; i < objs.length; i++) {
                 addGameObjectToScene(objs[i]);
+                for (Component c : objs[i].getAllComponents()) {
+                    if (c.getUid() > maxCompId) {
+                        maxCompId = c.getUid();
+                    }
+                }
+                if (objs[i].getUid() > maxGoId) {
+                    maxGoId = objs[i].getUid();
+                }
             }
+
+
+            maxGoId++;
+            maxCompId++;
+//            System.out.println(maxGoId);
+//            System.out.println(maxCompId);
+
+            GameObject.init(maxGoId);
+            Component.init(maxCompId);
             this.levelLoaded = true;
         }
     }

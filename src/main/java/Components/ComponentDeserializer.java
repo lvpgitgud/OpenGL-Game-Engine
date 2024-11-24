@@ -1,5 +1,6 @@
-package Unreality;
+package Components;
 
+import Components.Component;
 import com.google.gson.*;
 import java.lang.reflect.Type;
 public class ComponentDeserializer implements JsonSerializer<Component>, JsonDeserializer<Component> {

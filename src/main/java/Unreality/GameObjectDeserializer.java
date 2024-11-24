@@ -1,5 +1,6 @@
 package Unreality;
 
+import Components.Component;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
