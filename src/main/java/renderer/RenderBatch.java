@@ -20,8 +20,8 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 public class RenderBatch implements Comparable<RenderBatch> {
     // Vertex
     // ======
-    // Pos               Color                           Tex coords         tex id
-    // float, float,     float, float, float, float      float, float,      float
+    // Pos               Color                         tex coords     tex id
+    // float, float,     float, float, float, float    float, float   float
     private final int POS_SIZE = 2;
     private final int COLOR_SIZE = 4;
     private final int TEX_COORDS_SIZE = 2;
@@ -39,19 +39,18 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private boolean hasRoom;
     private float[] vertices;
     private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
-    private List<Texture> textures;
 
+    private List<Texture> textures;
     private int vaoID, vboID;
     private int maxBatchSize;
     private Shader shader;
     private int zIndex;
 
-    public RenderBatch(int maxBatchSize,int zIndex) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
         this.zIndex = zIndex;
         shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
-
 
         // 4 vertices quads
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -84,10 +83,10 @@ public class RenderBatch implements Comparable<RenderBatch> {
         glVertexAttribPointer(1, COLOR_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, COLOR_OFFSET);
         glEnableVertexAttribArray(1);
 
-        glVertexAttribPointer(2, TEX_COORDS_SIZE, GL_FLOAT,false,VERTEX_SIZE_BYTES, TEX_COORDS_OFFSET);
+        glVertexAttribPointer(2, TEX_COORDS_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_COORDS_OFFSET);
         glEnableVertexAttribArray(2);
 
-        glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT,false,VERTEX_SIZE_BYTES, TEX_ID_OFFSET);
+        glVertexAttribPointer(3, TEX_ID_SIZE, GL_FLOAT, false, VERTEX_SIZE_BYTES, TEX_ID_OFFSET);
         glEnableVertexAttribArray(3);
     }
 
@@ -97,12 +96,11 @@ public class RenderBatch implements Comparable<RenderBatch> {
         this.sprites[index] = spr;
         this.numSprites++;
 
-        if (spr.getTexture() != null){
-            if (!textures.contains(spr.getTexture())){
+        if (spr.getTexture() != null) {
+            if (!textures.contains(spr.getTexture())) {
                 textures.add(spr.getTexture());
             }
         }
-
 
         // Add properties to local vertices array
         loadVertexProperties(index);
@@ -113,7 +111,6 @@ public class RenderBatch implements Comparable<RenderBatch> {
     }
 
     public void render() {
-        // For now, we will rebuffer all data every frame
         boolean rebufferData = false;
         for (int i=0; i < numSprites; i++) {
             SpriteRenderer spr = sprites[i];
@@ -132,12 +129,10 @@ public class RenderBatch implements Comparable<RenderBatch> {
         shader.use();
         shader.uploadMat4f("uProjection", Window.getScene().camera().getProjectionMatrix());
         shader.uploadMat4f("uView", Window.getScene().camera().getViewMatrix());
-
-        for (int i = 0; i < textures.size(); i++){
+        for (int i=0; i < textures.size(); i++) {
             glActiveTexture(GL_TEXTURE0 + i + 1);
             textures.get(i).bind();
         }
-
         shader.uploadIntArray("uTextures", texSlots);
 
         glBindVertexArray(vaoID);
@@ -150,10 +145,9 @@ public class RenderBatch implements Comparable<RenderBatch> {
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
 
-        for (int i = 0; i < textures.size(); i++){
+        for (int i=0; i < textures.size(); i++) {
             textures.get(i).unbind();
         }
-
         shader.detach();
     }
 
@@ -166,18 +160,15 @@ public class RenderBatch implements Comparable<RenderBatch> {
         Vector4f color = sprite.getColor();
         Vector2f[] texCoords = sprite.getTexCoords();
 
-        int texID = 0 ;
-        if(sprite.getTexture() != null){
-            for (int i = 0; i < textures.size(); i++ ){
-                if(textures.get(i) == sprite.getTexture()){
-                    texID = i +1;
+        int texId = 0;
+        if (sprite.getTexture() != null) {
+            for (int i = 0; i < textures.size(); i++) {
+                if (textures.get(i).equals(sprite.getTexture())) {
+                    texId = i + 1;
                     break;
                 }
             }
         }
-
-
-
 
         // Add vertices with the appropriate properties
         float xAdd = 1.0f;
@@ -201,11 +192,12 @@ public class RenderBatch implements Comparable<RenderBatch> {
             vertices[offset + 4] = color.z;
             vertices[offset + 5] = color.w;
 
-            //Load texture coordinates
+            // Load texture coordinates
             vertices[offset + 6] = texCoords[i].x;
             vertices[offset + 7] = texCoords[i].y;
-            //Load texture id
-            vertices[offset + 8] = texID;
+
+            // Load texture id
+            vertices[offset + 8] = texId;
 
             offset += VERTEX_SIZE;
         }
@@ -241,16 +233,18 @@ public class RenderBatch implements Comparable<RenderBatch> {
         return this.hasRoom;
     }
 
-    public boolean hasTextureRoom(){
+    public boolean hasTextureRoom() {
         return this.textures.size() < 8;
     }
 
     public boolean hasTexture(Texture tex) {
         return this.textures.contains(tex);
     }
+
     public int zIndex() {
         return this.zIndex;
     }
+
     @Override
     public int compareTo(RenderBatch o) {
         return Integer.compare(this.zIndex, o.zIndex());
