@@ -182,4 +182,10 @@ public class Window {
     public static void setHeight(int newHeight) {
         get().height = newHeight;
     }
+    public static Framebuffer getFramebuffer() {
+        return get().framebuffer;
+    }
+    public static float getTargetAspectRatio() {
+        return 16.0f / 9.0f;
+    }
 }

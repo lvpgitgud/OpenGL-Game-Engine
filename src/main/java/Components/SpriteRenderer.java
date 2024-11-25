@@ -77,4 +77,7 @@ public class SpriteRenderer extends Component {
     public Vector4f getColor(){
         return this.color;
     }
+    public void setTexture(Texture texture) {
+        this.sprite.setTexture(texture);
+    }
 }
