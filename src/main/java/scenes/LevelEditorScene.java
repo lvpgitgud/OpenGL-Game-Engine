@@ -58,7 +58,7 @@ public class LevelEditorScene extends Scene {
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
 
-        // TODO: FIX TEXTURE SAVE SYSTEM TO USE PATH INSTEAD OF ID
+
         AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png",
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"),
                         16, 16, 81, 0));
@@ -101,8 +101,7 @@ public class LevelEditorScene extends Scene {
             int id = sprite.getTexId();
             Vector2f[] texCoords = sprite.getTexCoords();
 
-            // TODO FLIP TEXTURE COORDS SO THAT IMAGES ARE PLACED CORRECT DIRECTION
-            // TODO ALSO CHANGE SPRITE SIZE TO 32x32
+
             ImGui.pushID(i);
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, texCoords[0].x, texCoords[0].y, texCoords[2].x, texCoords[2].y)) {
                 GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
