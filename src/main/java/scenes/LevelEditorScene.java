@@ -84,15 +84,18 @@ public class LevelEditorScene extends Scene {
     public void update(float dt) {
         levelEditorStuff.update(dt);
 
-        ;
+
 
         for (GameObject go : this.gameObjects) {
             go.update(dt);
         }
 
+
+    }
+    @Override
+    public void render() {
         this.renderer.render();
     }
-
     @Override
     public void imgui() {
         ImGui.begin("Test window");
