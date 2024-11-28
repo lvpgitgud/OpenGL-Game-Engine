@@ -35,7 +35,7 @@ public class Window {
     private Window() {
         this.width = 1920;
         this.height = 1080;
-        this.title = "Mario";
+        this.title = "If you read this, you are gay";
         r = 1;
         b = 1;
         g = 1;
@@ -214,5 +214,8 @@ public class Window {
     }
     public static float getTargetAspectRatio() {
         return 16.0f / 9.0f;
+    }
+    public static ImGuiLayer getImguiLayer() {
+        return get().imguiLayer;
     }
 }
