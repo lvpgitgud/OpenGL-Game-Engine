@@ -7,14 +7,14 @@
         "type": "Unreality.Transform",
         "properties": {
           "position": {
-            "x": -247.54584,
-            "y": 0.68631196
+            "x": -246.75671,
+            "y": 2.3056087
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": 24.7,
           "zIndex": 0,
           "uid": 19
         }
@@ -39,40 +39,24 @@
             },
             "texCoords": [
               {
-                "x": 0.85714287,
+                "x": 1.0,
                 "y": 0.9166667
               },
               {
+                "x": 1.0,
+                "y": 0.8333333
+              },
+              {
                 "x": 0.85714287,
                 "y": 0.8333333
               },
               {
-                "x": 0.71428573,
-                "y": 0.8333333
-              },
-              {
-                "x": 0.71428573,
+                "x": 0.85714287,
                 "y": 0.9166667
               }
             ]
           },
           "uid": 20
-        }
-      },
-      {
-        "type": "physics2d.components.Rigidbody2D",
-        "properties": {
-          "velocity": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "angularDamping": 0.8,
-          "linearDamping": 0.9,
-          "mass": 0.0,
-          "bodyType": "Static",
-          "fixedRotation": false,
-          "continuousCollision": true,
-          "uid": 21
         }
       },
       {
@@ -90,6 +74,22 @@
             "x": 0.0,
             "y": 0.0
           },
+          "uid": 21
+        }
+      },
+      {
+        "type": "physics2d.components.Rigidbody2D",
+        "properties": {
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "angularDamping": 5.4,
+          "linearDamping": 0.9,
+          "mass": 19.1,
+          "bodyType": "Dynamic",
+          "fixedRotation": false,
+          "continuousCollision": true,
           "uid": 22
         }
       }
@@ -99,14 +99,14 @@
   },
   {
     "uid": 1,
-    "name": "Sprite_Object_Gen",
+    "name": "Invis_le_Box",
     "components": [
       {
         "type": "Unreality.Transform",
         "properties": {
           "position": {
-            "x": -247.08212,
-            "y": 1.2658291
+            "x": -246.75,
+            "y": 1.25
           },
           "scale": {
             "x": 0.25,
@@ -114,7 +114,7 @@
           },
           "rotation": 0.0,
           "zIndex": 0,
-          "uid": 19
+          "uid": 23
         }
       },
       {
@@ -137,24 +137,24 @@
             },
             "texCoords": [
               {
-                "x": 0.85714287,
+                "x": 1.0,
                 "y": 0.9166667
               },
               {
+                "x": 1.0,
+                "y": 0.8333333
+              },
+              {
                 "x": 0.85714287,
                 "y": 0.8333333
               },
               {
-                "x": 0.71428573,
-                "y": 0.8333333
-              },
-              {
-                "x": 0.71428573,
+                "x": 0.85714287,
                 "y": 0.9166667
               }
             ]
           },
-          "uid": 20
+          "uid": 24
         }
       },
       {
@@ -170,15 +170,15 @@
           "bodyType": "Static",
           "fixedRotation": false,
           "continuousCollision": true,
-          "uid": 21
+          "uid": 25
         }
       },
       {
         "type": "physics2d.components.Box2DCollider",
         "properties": {
           "halfSize": {
-            "x": 0.25,
-            "y": 0.25
+            "x": 1.0,
+            "y": 1.0
           },
           "origin": {
             "x": 0.0,
@@ -188,105 +188,7 @@
             "x": 0.0,
             "y": 0.0
           },
-          "uid": 22
-        }
-      }
-    ],
-    "doSerialization": true,
-    "isDead": false
-  },
-  {
-    "uid": 2,
-    "name": "Sprite_Object_Gen",
-    "components": [
-      {
-        "type": "Unreality.Transform",
-        "properties": {
-          "position": {
-            "x": -247.19221,
-            "y": 2.0
-          },
-          "scale": {
-            "x": 0.25,
-            "y": 0.25
-          },
-          "rotation": -27.1,
-          "zIndex": 0,
-          "uid": 42
-        }
-      },
-      {
-        "type": "Components.SpriteRenderer",
-        "properties": {
-          "firstTime": false,
-          "color": {
-            "x": 0.0,
-            "y": 0.77254903,
-            "z": 1.0,
-            "w": 1.0
-          },
-          "sprite": {
-            "width": 16.0,
-            "height": 16.0,
-            "texture": {
-              "filepath": "assets/images/spritesheets/decorationsAndBlocks.png",
-              "width": 112,
-              "height": 192
-            },
-            "texCoords": [
-              {
-                "x": 1.0,
-                "y": 1.0
-              },
-              {
-                "x": 1.0,
-                "y": 0.9166667
-              },
-              {
-                "x": 0.85714287,
-                "y": 0.9166667
-              },
-              {
-                "x": 0.85714287,
-                "y": 1.0
-              }
-            ]
-          },
-          "uid": 43
-        }
-      },
-      {
-        "type": "physics2d.components.Rigidbody2D",
-        "properties": {
-          "velocity": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "angularDamping": 0.8,
-          "linearDamping": 0.9,
-          "mass": 10.7,
-          "bodyType": "Dynamic",
-          "fixedRotation": false,
-          "continuousCollision": true,
-          "uid": 44
-        }
-      },
-      {
-        "type": "physics2d.components.Box2DCollider",
-        "properties": {
-          "halfSize": {
-            "x": 0.25,
-            "y": 0.25
-          },
-          "origin": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "offset": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "uid": 45
+          "uid": 26
         }
       }
     ],
