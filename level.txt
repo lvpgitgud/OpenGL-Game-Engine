@@ -1,14 +1,14 @@
 [
   {
-    "uid": 112,
+    "uid": 0,
     "name": "Sprite_Object_Gen",
     "components": [
       {
         "type": "Unreality.Transform",
         "properties": {
           "position": {
-            "x": -247.48175,
-            "y": 1.0
+            "x": -247.54584,
+            "y": 0.68631196
           },
           "scale": {
             "x": 0.25,
@@ -98,7 +98,7 @@
     "isDead": false
   },
   {
-    "uid": 113,
+    "uid": 1,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -196,7 +196,7 @@
     "isDead": false
   },
   {
-    "uid": 114,
+    "uid": 2,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -220,8 +220,8 @@
         "properties": {
           "firstTime": false,
           "color": {
-            "x": 1.0,
-            "y": 1.0,
+            "x": 0.0,
+            "y": 0.77254903,
             "z": 1.0,
             "w": 1.0
           },
