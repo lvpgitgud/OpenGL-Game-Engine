@@ -22,6 +22,8 @@ public abstract class Component {
     public void update(float dt) {
 
     }
+    public void editorUpdate(float dt) {
+    }
 
     public void imgui() {
         try {
@@ -89,5 +91,9 @@ public abstract class Component {
 
     public static void init(int maxId) {
         ID_COUNTER = maxId;
+    }
+
+    public void destroy(){
+
     }
 }

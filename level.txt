@@ -1,6 +1,6 @@
 [
   {
-    "uid": 1,
+    "uid": 0,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -60,10 +60,11 @@
         }
       }
     ],
-    "doSerialization": true
+    "doSerialization": true,
+    "isDead": false
   },
   {
-    "uid": 2,
+    "uid": 1,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -123,6 +124,22 @@
         }
       },
       {
+        "type": "physics2d.components.Rigidbody2D",
+        "properties": {
+          "velocity": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "angularDamping": 0.8,
+          "linearDamping": 0.9,
+          "mass": 0.0,
+          "bodyType": "Dynamic",
+          "fixedRotation": false,
+          "continuousCollision": true,
+          "uid": 81
+        }
+      },
+      {
         "type": "physics2d.components.Box2DCollider",
         "properties": {
           "halfSize": {
@@ -137,26 +154,75 @@
             "x": 0.0,
             "y": 0.0
           },
-          "uid": 59
-        }
-      },
-      {
-        "type": "physics2d.components.Rigidbody2D",
-        "properties": {
-          "velocity": {
-            "x": 0.0,
-            "y": 0.0
-          },
-          "angularDamping": 0.8,
-          "linearDamping": 0.9,
-          "mass": 0.0,
-          "bodyType": "Dynamic",
-          "fixedRotation": false,
-          "continuousCollision": true,
-          "uid": 60
+          "uid": 82
         }
       }
     ],
-    "doSerialization": true
+    "doSerialization": true,
+    "isDead": false
+  },
+  {
+    "uid": 2,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "Unreality.Transform",
+        "properties": {
+          "position": {
+            "x": -3.618164,
+            "y": 256.0
+          },
+          "scale": {
+            "x": 32.0,
+            "y": 32.0
+          },
+          "rotation": 0.0,
+          "zIndex": 0,
+          "uid": 60
+        }
+      },
+      {
+        "type": "Components.SpriteRenderer",
+        "properties": {
+          "firstTime": false,
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "width": 16.0,
+            "height": 16.0,
+            "texture": {
+              "filepath": "assets/images/spritesheets/decorationsAndBlocks.png",
+              "width": 112,
+              "height": 192
+            },
+            "texCoords": [
+              {
+                "x": 1.0,
+                "y": 1.0
+              },
+              {
+                "x": 1.0,
+                "y": 0.9166667
+              },
+              {
+                "x": 0.85714287,
+                "y": 0.9166667
+              },
+              {
+                "x": 0.85714287,
+                "y": 1.0
+              }
+            ]
+          },
+          "uid": 61
+        }
+      }
+    ],
+    "doSerialization": true,
+    "isDead": false
   }
 ]

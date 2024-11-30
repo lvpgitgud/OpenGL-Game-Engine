@@ -1,32 +1,34 @@
 package Unreality;
 
 
+import observers.EventSystem;
+import observers.Observer;
+import observers.events.Event;
+import observers.events.EventType;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.opengl.GL;
 import renderer.DebugDraw;
 import renderer.Framebuffer;
 import renderer.PickingTexture;
-import scenes.LevelEditorScene;
-import scenes.LevelScene;
+import scenes.LevelEditorSceneInitializer;
 import scenes.Scene;
 import renderer.*;
+import scenes.SceneInitializer;
 import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
-public class Window {
+public class Window implements Observer {
     private int width, height;
     private String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
     private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
-
-    public float r, g, b, a;
-    private boolean fadeToBlack = false;
+    private boolean runtimePlaying = false;
 
     private static Window window = null;
 
@@ -36,25 +38,16 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "If you read this, you are gay";
-        r = 1;
-        b = 1;
-        g = 1;
-        a = 1;
+        EventSystem.addObserver(this);
     }
 
-    public static void changeScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new LevelEditorScene();
-                break;
-            case 1:
-                currentScene = new LevelScene();
-                break;
-            default:
-                assert false : "Unknown scene '" + newScene + "'";
-                break;
+    public static void changeScene(SceneInitializer sceneInitializer) {
+        if (currentScene != null) {
+            currentScene.destroy();
         }
 
+        getImguiLayer().getPropertiesWindow().setActiveGameObject(null);
+        currentScene = new Scene(sceneInitializer);
         currentScene.load();
         currentScene.init();
         currentScene.start();
@@ -125,21 +118,24 @@ public class Window {
         // Make the window visible
         glfwShowWindow(glfwWindow);
 
-        //Do not delete
+        // This line is critical for LWJGL's interoperation with GLFW's
+        // OpenGL context, or any context that is managed externally.
+        // LWJGL detects the context that is current in the current thread,
+        // creates the GLCapabilities instance and makes the OpenGL
+        // bindings available for use.
         GL.createCapabilities();
 
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-
         this.framebuffer = new Framebuffer(1920, 1080);
         this.pickingTexture = new PickingTexture(1920, 1080);
-        glViewport(0,0,1920,1080);
+        glViewport(0, 0, 1920, 1080);
 
         this.imguiLayer = new ImGuiLayer(glfwWindow, pickingTexture);
         this.imguiLayer.initImGui();
 
-        Window.changeScene(0);
+        Window.changeScene(new LevelEditorSceneInitializer());
     }
 
     public void loop() {
@@ -153,31 +149,36 @@ public class Window {
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
             glfwPollEvents();
-// Render pass 1. Render to picking texture
+
+            // Render pass 1. Render to picking texture
             glDisable(GL_BLEND);
             pickingTexture.enableWriting();
+
             glViewport(0, 0, 1920, 1080);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
             Renderer.bindShader(pickingShader);
             currentScene.render();
 
             pickingTexture.disableWriting();
             glEnable(GL_BLEND);
+
             // Render pass 2. Render actual game
-
             DebugDraw.beginFrame();
+
             this.framebuffer.bind();
-
-            glClearColor(r, g, b, a);
+            glClearColor(1, 1, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
-
-
 
             if (dt >= 0) {
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
-                currentScene.update(dt);
+                if (runtimePlaying) {
+                    currentScene.update(dt);
+                } else {
+                    currentScene.editorUpdate(dt);
+                }
                 currentScene.render();
             }
             this.framebuffer.unbind();
@@ -190,8 +191,6 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
-
-        currentScene.saveExit();
     }
 
     public static int getWidth() {
@@ -209,13 +208,35 @@ public class Window {
     public static void setHeight(int newHeight) {
         get().height = newHeight;
     }
+
     public static Framebuffer getFramebuffer() {
         return get().framebuffer;
     }
+
     public static float getTargetAspectRatio() {
         return 16.0f / 9.0f;
     }
+
     public static ImGuiLayer getImguiLayer() {
         return get().imguiLayer;
+    }
+
+    @Override
+    public void onNotify(GameObject object, Event event) {
+        switch (event.type) {
+            case GameEngineStartPlay:
+                this.runtimePlaying = true;
+                currentScene.save();
+                Window.changeScene(new LevelEditorSceneInitializer());
+                break;
+            case GameEngineStopPlay:
+                this.runtimePlaying = false;
+                Window.changeScene(new LevelEditorSceneInitializer());
+                break;
+            case LoadLevel:
+                Window.changeScene(new LevelEditorSceneInitializer());
+            case SaveLevel:
+                currentScene.save();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package renderer;
 
 import Components.SpriteRenderer;
+import Unreality.GameObject;
 import Unreality.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -46,12 +47,10 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private List<Texture> textures;
     private int vaoID, vboID;
     private int maxBatchSize;
-    private Shader shader;
     private int zIndex;
 
     public RenderBatch(int maxBatchSize, int zIndex) {
         this.zIndex = zIndex;
-        shader = AssetPool.getShader("assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
 
@@ -157,6 +156,22 @@ public class RenderBatch implements Comparable<RenderBatch> {
         shader.detach();
     }
 
+    public boolean destroyIfExists(GameObject go) {
+        SpriteRenderer sprite = go.getComponent(SpriteRenderer.class);
+        for (int i=0; i < numSprites; i++) {
+            if (sprites[i] == sprite) {
+                for (int j=i; j < numSprites - 1; j++) {
+                    sprites[j] = sprites[j + 1];
+                    sprites[j].setDirty();
+                }
+                numSprites--;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void loadVertexProperties(int index) {
         SpriteRenderer sprite = this.sprites[index];
 
@@ -223,6 +238,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
             // Load texture id
             vertices[offset + 8] = texId;
 
+            // Load entity id
             vertices[offset + 9] = sprite.gameObject.getUid() + 1;
 
             offset += VERTEX_SIZE;

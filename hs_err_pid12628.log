@@ -35,7 +35,7 @@ Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.lwjgl.opengl.GL11C.nglDrawElements(IIIJ)V+0
 j  org.lwjgl.opengl.GL11C.glDrawElements(IIIJ)V+4
 j  org.lwjgl.opengl.GL11.glDrawElements(IIIJ)V+4
-j  scenes.LevelEditorScene.update(F)V+32
+j  scenes.LevelEditorSceneInitializer.update(F)V+32
 j  Unreality.Window.loop()V+75
 j  Unreality.Window.run()V+19
 j  Main.main([Ljava/lang/String;)V+5
