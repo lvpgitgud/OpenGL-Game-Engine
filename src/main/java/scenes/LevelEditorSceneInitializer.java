@@ -54,6 +54,8 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
 
     @Override
     public void imgui() {
+
+
         ImGui.begin("Level Editor Stuff");
         levelEditorStuff.imgui();
         ImGui.end();
