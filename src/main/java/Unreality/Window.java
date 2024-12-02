@@ -7,6 +7,10 @@ import observers.events.Event;
 import observers.events.EventType;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.openal.AL;
+import org.lwjgl.openal.ALC;
+import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.openal.ALCapabilities;
 import org.lwjgl.opengl.GL;
 import renderer.DebugDraw;
 import renderer.Framebuffer;
@@ -19,6 +23,7 @@ import util.AssetPool;
 
 import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.openal.ALC10.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 public class Window implements Observer {
@@ -29,13 +34,15 @@ public class Window implements Observer {
     private Framebuffer framebuffer;
     private PickingTexture pickingTexture;
 
-    public float r, g, b, a;
+
     private boolean runtimePlaying = false;
 
     private static Window window = null;
 
     private static Scene currentScene;
     private boolean isEditorPlay = false;
+    private long audioContext;
+    private long audioDevice;
 
     private Window() {
         this.width = 1920;
@@ -76,6 +83,10 @@ public class Window implements Observer {
 
         init();
         loop();
+
+        //destroy audio context
+        alcDestroyContext(audioContext);
+        alcCloseDevice(audioDevice);
 
         // Free the memory
         glfwFreeCallbacks(glfwWindow);
@@ -124,6 +135,20 @@ public class Window implements Observer {
         // Make the window visible
         glfwShowWindow(glfwWindow);
 
+        //initialise audio device
+        String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER );
+        audioDevice = alcOpenDevice(defaultDeviceName);
+
+        int[] attributes = {0};
+        audioContext = alcCreateContext(audioDevice, attributes);
+        alcMakeContextCurrent(audioContext);
+
+        ALCCapabilities alcCapabilities = ALC.createCapabilities(audioDevice);
+        ALCapabilities alCapabilities = AL.createCapabilities(alcCapabilities);
+
+        if(!alCapabilities.OpenAL10) {
+            assert false : "Audio library not supported.";
+        }
         //Do not delete
         GL.createCapabilities();
 
