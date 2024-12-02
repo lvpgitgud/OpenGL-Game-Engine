@@ -1,5 +1,7 @@
 package Unreality;
 
+import java.util.Arrays;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyListener {
@@ -8,6 +10,9 @@ public class KeyListener {
     private boolean keyBeginPress[] = new boolean[350];
     private KeyListener(){
 
+    }
+    public static void endFrame() {
+        Arrays.fill(get().keyBeginPress, false);
     }
 
     public static KeyListener get() {
@@ -31,10 +36,6 @@ public class KeyListener {
         return get().keyPressed[keyCode];
     }
     public static boolean keyBeginPress(int keyCode) {
-        boolean result = get().keyBeginPress[keyCode];
-        if (result) {
-            get().keyBeginPress[keyCode] = false;
-        }
-        return result;
+        return get().keyBeginPress[keyCode];
     }
 }
