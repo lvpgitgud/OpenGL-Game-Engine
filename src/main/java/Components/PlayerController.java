@@ -2,6 +2,7 @@ package Components;
 
 import Unreality.GameObject;
 import Unreality.KeyListener;
+import Unreality.Prefabs;
 import Unreality.Window;
 import org.jbox2d.dynamics.contacts.Contact;
 import org.joml.Vector2f;
@@ -154,6 +155,17 @@ public class PlayerController extends Component {
                 this.stateMachine.trigger("stopRunning");
             }
         }
+        if (KeyListener.keyBeginPress(GLFW_KEY_E) && playerState == PlayerState.Fire &&
+                Fireball.canSpawn()) {
+            Vector2f position = new Vector2f(this.gameObject.transform.position)
+                    .add(this.gameObject.transform.scale.x > 0
+                            ? new Vector2f(0.26f, 0)
+                            : new Vector2f(-0.26f, 0));
+            GameObject fireball = Prefabs.generateFireball(position);
+            fireball.getComponent(Fireball.class).goingRight =
+                    this.gameObject.transform.scale.x > 0;
+            Window.getScene().addGameObjectToScene(fireball);
+        }
 
         checkOnGround();
 
@@ -231,7 +243,7 @@ public class PlayerController extends Component {
             if (pb != null) {
                 jumpBoost *= bigJumpBoostFactor;
                 walkSpeed *= bigJumpBoostFactor;
-                pb.setHeight(0.63f);
+                pb.setHeight(0.42f);
             }
         } else if (playerState == PlayerState.Big) {
             playerState = PlayerState.Fire;
