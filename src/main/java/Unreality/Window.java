@@ -5,6 +5,7 @@ import observers.EventSystem;
 import observers.Observer;
 import observers.events.Event;
 import observers.events.EventType;
+import org.joml.Vector4f;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.openal.AL;
@@ -17,6 +18,7 @@ import renderer.DebugDraw;
 import renderer.Framebuffer;
 import renderer.PickingTexture;
 import scenes.LevelEditorSceneInitializer;
+import scenes.LevelSceneInitializer;
 import scenes.Scene;
 import renderer.*;
 import scenes.SceneInitializer;
@@ -197,7 +199,8 @@ public class Window implements Observer {
             DebugDraw.beginFrame();
 
             this.framebuffer.bind();
-            glClearColor(1, 1, 1, 1);
+            Vector4f clearColor = currentScene.camera().clearColor;
+            glClearColor(clearColor.x, clearColor.y, clearColor.z, clearColor.w);
             glClear(GL_COLOR_BUFFER_BIT);
 
             if (dt >= 0) {
@@ -259,7 +262,7 @@ public class Window implements Observer {
             case GameEngineStartPlay:
                 this.runtimePlaying = true;
                 currentScene.save();
-                Window.changeScene(new LevelEditorSceneInitializer());
+                Window.changeScene(new LevelSceneInitializer());
                 break;
             case GameEngineStopPlay:
                 this.runtimePlaying = false;

@@ -92,6 +92,14 @@ public class Scene {
                 .findFirst();
         return result.orElse(null);
     }
+    public <T extends Component> GameObject getGameObjectWith(Class<T> clazz) {
+        for (GameObject go : gameObjects) {
+            if (go.getComponent(clazz) != null) {
+                return go;
+            }
+        }
+        return null;
+    }
 
 
     public void editorUpdate(float dt) {
