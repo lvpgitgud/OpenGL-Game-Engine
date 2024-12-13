@@ -211,6 +211,10 @@ public class PlayerController extends Component {
         }
         stateMachine.trigger("powerup");
     }
+    public void setPosition(Vector2f newPos) {
+        this.gameObject.transform.position.set(newPos);
+        this.rb.setPosition(newPos);
+    }
     public void die() {
         this.stateMachine.trigger("die");
         if (this.playerState == PlayerState.Small) {

@@ -1,2 +1,8 @@
-package Unreality;public enum Direction {
+package Unreality;
+
+public enum Direction {
+    Up,
+    Down,
+    Left,
+    Right
 }

@@ -61,6 +61,11 @@ public class Rigidbody2D extends Component {
     public Vector2f getVelocity() {
         return velocity;
     }
+    public void setPosition(Vector2f newPos) {
+        if (rawBody != null) {
+            rawBody.setTransform(new Vec2(newPos.x, newPos.y), gameObject.transform.rotation);
+        }
+    }
 
     public void setVelocity(Vector2f velocity) {
         this.velocity.set(velocity);
